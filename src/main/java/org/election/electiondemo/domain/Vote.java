@@ -17,8 +17,4 @@ public class Vote {
   private Integer count;
   @JsonProperty("prefs")
   private List<Integer> preference;
-  private boolean transferred;
-  private Integer preferredCandidateId;
-  private Integer least;
-  private Integer lastPreferenceIndex;
 }

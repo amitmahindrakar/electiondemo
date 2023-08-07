@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -17,13 +19,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class ElectionService {
 
-  private Set<Integer> findWinners(Map<Integer, VotesPile> candidateVotes, Integer totalVotes) {
-    Set<Integer> winners = new HashSet<>();
-    candidateVotes.forEach((key, value) -> {
-      if (value.getCount() >= totalVotes / 2) {
-        winners.add(key);
+  private Integer findWinner(Map<Integer, VotesPile> candidateVotes, Integer totalVotes) {
+    Integer winners = null;
+    for (Entry<Integer, VotesPile> entry : candidateVotes.entrySet()) {
+      Integer key = entry.getKey();
+      VotesPile value = entry.getValue();
+      if (value.getCount() > totalVotes / 2) {
+        winners = key;
       }
-    });
+    }
     return winners;
   }
 
@@ -86,21 +90,21 @@ public class ElectionService {
     }
   }
 
-  public Set<Integer> countBallots(ElectionData election) {
+  public Integer countBallots(ElectionData election) {
     Map<Integer, VotesPile> candidateVotes = divideVotesToCandidateBuckets(election);
-    Set<Integer> winners = findWinners(candidateVotes, election.getTotalVotes());
-    if (!winners.isEmpty()) {
-      return winners;
+    Integer winner = findWinner(candidateVotes, election.getTotalVotes());
+    if (Objects.nonNull(winner)) {
+      return winner;
     }
     //map above get garbage collected
     Set<Integer> eliminatedCandidates = new HashSet<>();
 
-    while (winners.isEmpty()) {
+    do {
       eliminate(candidateVotes,
           eliminatedCandidates); // both objects are being modified in child methods
       dropEliminatedCandidateVotesToNextPreferredCandidate(candidateVotes, eliminatedCandidates);
-      winners = findWinners(candidateVotes, election.getTotalVotes());
-    }
-    return winners;
+      winner = findWinner(candidateVotes, election.getTotalVotes());
+    } while (eliminatedCandidates.size() != election.getNumberOfCandidates() && Objects.isNull(winner));
+    return winner;
   }
 }
