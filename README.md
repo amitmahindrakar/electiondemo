@@ -2,7 +2,7 @@
 
 **Steps to deploy the application for testing**
 1. install java 17 if not existing
-2. execute ./mvnw package
+2. UNIX Systems: execute ./mvnw package, WINDOWS Systems: execute mvnw.bat package 
 3. execute java -jar target/electiondemo-1.0.0-SNAPSHOT.jar
 4. go to localhost:8080
 5. upload a valid json file(can be found at src/test/resources/samples)
