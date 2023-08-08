@@ -39,7 +39,7 @@
       </exclusions>
       <scope>test</scope>
     </dependency>
-  </dependencies>k
+  </dependencies>
 
   <build>
     <plugins>
