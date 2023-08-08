@@ -1,25 +1,11 @@
+**This is temporarily hosted at http://election-app.captorconsulting.com/ **
+
 **Steps to deploy the application for testing**
 1. install java 17 if not existing
-2. execute ./gradlew build from the root of the application code
-3. execute ./gradlew bootRun to deploy the service locally
-
-**Testing with postman:**
-1. Create a post request with address: localhost:8080
-2. go to body tab and select: form-data option
-3. hover over the key and select "file" option
-4. enter key: file, value: select path to a valid JSON ballot data
-
-**alternatively testing via commandline**
-in following command replace /sample_data.json with a valid path on your file system
-curl --location 'localhost:8080/uploadFile' \
---form 'file=@"/sample_data.json"'
-
-**Testing with front-end app locally**
-prerequisite: NodeJs installation on the machine
-steps:
-1. deploy backend app using steps mentioned above
-2. build front-end app using npm install
-3. run front-end app using npm start
+2. execute ./mvnw package
+3. execute java -jar target/electiondemo-1.0.0-SNAPSHOT.jar
+4. go to localhost:8080
+5. upload a valid json file(can be found at src/test/resources/samples)
 
 **Assumptions Made:**
 1. There can always be only 1 winner as only one candidate can have >50% votes
@@ -36,4 +22,3 @@ steps:
 2. Invalid Ballot data
 3. Rest API response code are simplistic.
 
-**There is work in progress to host this on AWS.**
