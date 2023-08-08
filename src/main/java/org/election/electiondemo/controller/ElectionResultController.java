@@ -2,6 +2,8 @@ package org.election.electiondemo.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,4 +43,8 @@ public class ElectionResultController {
       return new ResponseEntity<>("There was an error in processing the request", HttpStatusCode.valueOf(400));
     }
   }
+//  @GetMapping(value = "/")
+//  public void uploadFile(HttpServletResponse response) throws IOException {
+//    response.sendRedirect("index.html");
+//  }
 }
